@@ -9,22 +9,22 @@ export default function Home() {
     {
       id: "camisetas",
       name: "Camisetas",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/camiseta-nike-los-angeles-lakers-association-edition-swingman-luka-doncic-white-0.webp",
     },
     {
       id: "pantalones",
       name: "Pantalones",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/71IfWz74AML.webp",
     },
     {
       id: "calcetines",
-      name: "Calcetines",
-      image: "/placeholder.svg?height=300&width=300",
+      name: "Medias",
+      image: "/41GTLlS0HWL.webp",
     },
     {
       id: "pelotas",
       name: "Pelotas",
-      image: "/placeholder.svg?height=300&width=300",
+      image: "/9220.jpg",
     },
   ]
 
