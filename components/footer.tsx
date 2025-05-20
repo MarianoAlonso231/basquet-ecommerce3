@@ -24,7 +24,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/productos/calcetines" className="text-sm text-muted-foreground hover:text-foreground">
-                  Calcetines
+                  Medias
                 </Link>
               </li>
               <li>

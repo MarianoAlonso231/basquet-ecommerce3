@@ -31,11 +31,11 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
       setLoading(true)
       let tipo = category
       if (tipo === "pantalones") tipo = "pantalon"
-      if (tipo === "calcetines") tipo = "media"
+      if (tipo === "medias") tipo = "media"
       if (tipo === "camisetas") tipo = "camiseta"
       const { data, error } = await supabase
         .from("products")
-        .select("id, nombre, precio, imagen")
+        .select("id, nombre, precio, imagen, stock") // <-- Añadir stock aquí
         .eq("tipo", tipo)
       if (!error && data) {
         setProducts(data)
@@ -70,6 +70,7 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
                 </div>
                 <CardContent className="p-4">
                   <h2 className="font-semibold text-lg">{product.nombre}</h2>
+                  <p className="text-sm text-gray-500">Stock: {(product as any).stock}</p> {/* Mostrar stock */}
                 </CardContent>
                 <CardFooter className="p-4 pt-0">
                   <p className="font-bold">{product.precio?.toFixed(2)} €</p>

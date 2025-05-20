@@ -3,9 +3,14 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { ShoppingBag } from "lucide-react"
 import Link from "next/link"
+import { useCart } from "@/components/cart-context"
 
 export function CartSheet() {
-  const isEmpty = true
+  const { cart, removeFromCart } = useCart()
+  const isEmpty = cart.length === 0
+
+  // Calcular subtotal
+  const subtotal = cart.reduce((acc, item) => acc + (item.precio * item.cantidad), 0)
 
   return (
     <div className="flex h-full flex-col">
@@ -20,18 +25,44 @@ export function CartSheet() {
             <p className="text-lg font-medium">Tu carrito está vacío</p>
             <p className="text-sm text-muted-foreground">Añade algunos productos a tu carrito</p>
           </div>
-          <Button asChild>
-            <Link href="/productos">Ver productos</Link>
-          </Button>
         </div>
       ) : (
         <>
-          <ScrollArea className="flex-1 py-4">{/* Aquí irían los productos del carrito */}</ScrollArea>
+          <ScrollArea className="flex-1 py-4">
+            <ul className="space-y-4">
+              {cart.map((item, idx) => (
+                <li key={idx} className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={item.imagen || "/placeholder.svg"}
+                      alt={item.nombre}
+                      className="w-14 h-14 object-cover rounded"
+                    />
+                    <div>
+                      <p className="font-medium">{item.nombre}</p>
+                      {item.talle && <p className="text-xs text-gray-500">Talle: {item.talle}</p>}
+                      <p className="text-xs text-gray-500">Cantidad: {item.cantidad}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <p className="font-semibold">{(item.precio * item.cantidad).toFixed(2)} €</p>
+                    <button
+                      className="text-xs text-red-600 hover:underline"
+                      onClick={() => removeFromCart(item.id, item.talle)}
+                      title="Eliminar producto"
+                    >
+                      Quitar
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </ScrollArea>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Subtotal</span>
-                <span className="text-sm font-medium">$0.00</span>
+                <span className="text-sm font-medium">{subtotal.toFixed(2)} €</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Envío</span>
@@ -40,7 +71,7 @@ export function CartSheet() {
               <Separator />
               <div className="flex items-center justify-between">
                 <span className="text-base font-medium">Total</span>
-                <span className="text-base font-medium">$0.00</span>
+                <span className="text-base font-medium">{subtotal.toFixed(2)} €</span>
               </div>
             </div>
             <Button className="w-full">Finalizar compra</Button>
